@@ -33,5 +33,22 @@ class DB_Functions {
             return NULL;
         }
     }
+    public function getListeEleveProf($idProf) {
+
+        $stmt = $this->conn->prepare("SELECT nom, prenom FROM eleve WHERE id in (SELECT idEleve FROM agenda WHERE idProf=?);");
+        $stmt->bind_param('s',$idProf);
+
+ 
+        $stmt->execute();
+        $result = $stmt->get_result();
+        /*while ($row = $result->fetch_array(MYSQLI_NUM))
+        {
+            foreach ($row as $r)
+            {
+                print "$r ";
+            }
+            print "\n";
+        }*/
+    }
 }
 ?>
