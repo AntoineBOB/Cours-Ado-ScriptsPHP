@@ -1,4 +1,4 @@
 <?php
 
-return json_encode("Tamere");
+echo json_encode("Coucou";)
 ?>

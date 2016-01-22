@@ -21,10 +21,8 @@ class DB_Functions {
      * Get user by email and password
      */
     public function getUserByEmailAndPassword($email, $password) {
- 
-        // Changer la requete pour qu'elle corresponde à la table des professeurs
-        $stmt = $this->conn->prepare("SELECT * FROM professeurs WHERE email = ? AND pwd = ?");
- 
+
+        $stmt = $this->conn->prepare("SELECT * FROM professeur WHERE email = ? AND pwd = ?");
         $stmt->bind_param("ss", $email, $password);
  
         if ($stmt->execute()) {
