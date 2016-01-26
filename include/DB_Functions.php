@@ -36,19 +36,22 @@ class DB_Functions {
     public function getListeEleveProf($idProf) {
 
         $stmt = $this->conn->prepare("SELECT id, nom, prenom FROM eleve WHERE id in (SELECT idEleve FROM agenda WHERE idProf=?);");
-        $stmt->bind_param('s',$idProf);
+        $stmt->bind_param('i',$idProf);
 
- 
-        $stmt->execute();
-        $result = $stmt->get_result();
-        /*while ($row = $result->fetch_array(MYSQLI_NUM))
-        {
-            foreach ($row as $r)
-            {
-                print "$r ";
-            }
-            print "\n";
-        }*/
+        if($stmt->execute()){
+            $result = $stmt->get_result();
+            $stmt->close();
+            return $result;
+        }
+        else{
+            return NULL;
+        }
+    }
+
+    public function getTicket($codeBarre){
+
+        $stmt = $this->conn->prepare("SELECT dateValidation from inscription_tickets where codeBarre = ?;");
+        $stmt->bind_param('s',$codeBarre);
     }
 }
 ?>
