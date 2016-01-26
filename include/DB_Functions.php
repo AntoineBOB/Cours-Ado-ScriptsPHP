@@ -52,6 +52,14 @@ class DB_Functions {
 
         $stmt = $this->conn->prepare("SELECT dateValidation from inscription_tickets where codeBarre = ?;");
         $stmt->bind_param('s',$codeBarre);
+
+        if($stmt->execute()){
+            $result = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
     }
 }
 ?>
