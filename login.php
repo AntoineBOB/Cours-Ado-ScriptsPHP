@@ -4,11 +4,8 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
 
-    //$email = $_POST['EmailProf'];
-    //$password = $_POST['PasswordProf'];
-    $email = "ssebastien@cours-ado.com";
-    $password="UKYx8AcY";
-
+    $email = $_GET['email'];
+    $password = $_GET['mdp'];
     // get the user by email and password
     $user = $db->getUserByEmailAndPassword($email, $password);
  

@@ -1,4 +1,3 @@
 <?php
-
-echo json_encode("Coucou";)
+echo json_encode("Coucou");
 ?>
