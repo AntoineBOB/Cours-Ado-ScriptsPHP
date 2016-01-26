@@ -4,8 +4,8 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
 
-//$idProf = $_GET["idProf"];
-$idProf="4186";
+$idProf = $_GET["idProf"];
+//$idProf="4186";
 $liste=$db->getListeEleveProf($idProf);
 
 if($liste->num_rows !=0){

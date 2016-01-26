@@ -14,6 +14,7 @@ $response = array("error" => FALSE);
         $response["error"] = FALSE;
         $response["nom"]= $user["nom"];
         $response["prenom"] = $user["prenom"];
+        $response["id"]= $user["id"];
         echo json_encode($response);
     } else {
         // user is not found with the credentials
