@@ -4,7 +4,8 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
 
-    $codeBarre = "M175144940001";
+    //$codeBarre = "M175145480001";
+    $codeBarre = $_GET["codeBarre"];
     // get the user by email and password
     $ticket = $db->getTicket($codeBarre);
  
@@ -16,7 +17,7 @@ $response = array("error" => FALSE);
         }
         else{
             $response["error"]=TRUE;
-            $response["error_msg"] = "Le ticket a deja ete valide";
+            $response["error_msg"] = "Le ticket à déjà été validé";
             echo json_encode($response);
         }
     } else {
