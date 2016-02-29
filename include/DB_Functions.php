@@ -50,8 +50,10 @@ class DB_Functions {
 
     public function getTicket($codeBarre){
 
-        $stmt = $this->conn->prepare("SELECT dateValidation from inscription_tickets where codeBarre = ?;");
-        $stmt->bind_param('s',$codeBarre);
+        $stmt = $this->conn->prepare(
+            "SELECT * from bon_prof where idinscription= (Select idInscription from inscription_tickets where codeBarre= ?)
+             and numTicket = (Select numeroBon from inscription_tickets where codeBarre = ?);");
+        $stmt->bind_param('ss',$codeBarre,$codeBarre);
 
         if($stmt->execute()){
             $result = $stmt->get_result()->fetch_assoc();

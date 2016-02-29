@@ -8,22 +8,15 @@ $response = array("error" => FALSE);
     $codeBarre = $_GET["codeBarre"];
     // get the user by email and password
     $ticket = $db->getTicket($codeBarre);
- 
-    if ($ticket != false) {
-        if($ticket["dateValidation"]==NULL){
-            $response["error"] = FALSE;
-            $response["message"]= "Le ticket est valide";
-            echo json_encode($response);
-        }
-        else{
-            $response["error"]=TRUE;
-            $response["error_msg"] = "Le ticket à déjà été validé";
-            echo json_encode($response);
-        }
-    } else {
-        // user is not found with the credentials
-        $response["error"] = TRUE;
-        $response["error_msg"] = "Le ticket n'existe pas";
+    
+    if ($ticket == null) {
+        $response["error"] = FALSE;
+        $response["message"]= "Le ticket est valide";
+        echo json_encode($response);
+    }
+    else{
+        $response["error"]=TRUE;
+        $response["error_msg"] = "Le ticket a déjà été validé";
         echo json_encode($response);
     }
 ?>
