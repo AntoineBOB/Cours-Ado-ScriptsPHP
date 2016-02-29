@@ -61,5 +61,18 @@ class DB_Functions {
             return NULL;
         }
     }
+    public function getListeCours($idEleve, $idProf){
+        $stmt=$this->conn->prepare("SELECT inscription.num_inscription FROM inscription INNER JOIN inscription_prof ON inscription_prof.idInscription= inscription.id WHERE inscription.idEleve=? AND inscription_prof.idProf=?");
+        $stmt->bind_param('ss',$idEleve, $idProf);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+
 }
 ?>
