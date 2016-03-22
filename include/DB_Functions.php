@@ -35,7 +35,7 @@ class DB_Functions {
     }
     public function getListeEleveProf($idProf) {
 
-        $stmt = $this->conn->prepare("SELECT id, nom, prenom FROM eleve WHERE id in (SELECT idEleve FROM agenda WHERE idProf=?);");
+        $stmt = $this->conn->prepare("SELECT id, nom, prenom FROM eleve WHERE id in (SELECT idEleve FROM inscription WHERE id in (SELECT idInscription FROM inscription_prof WHERE idProf=?));");
         $stmt->bind_param('i',$idProf);
 
         if($stmt->execute()){
@@ -64,7 +64,10 @@ class DB_Functions {
         }
     }
     public function getListeCours($idEleve, $idProf){
-        $stmt=$this->conn->prepare("SELECT inscription.num_inscription FROM inscription INNER JOIN inscription_prof ON inscription_prof.idInscription= inscription.id WHERE inscription.idEleve=? AND inscription_prof.idProf=?");
+
+        $stmt=$this->conn->prepare("SELECT inscription_prof.heure_cadence, niveau.niveau, inscription.ville_cours AS ville, inscription.num_inscription,(select IFNULL(SUM(compteur),0) from bon_prof WHERE idinscription_prof=inscription_prof.id) as nbTickets, (SELECT SUM(dureeSeance) AS nbHeures FROM inscription_bilan WHERE idInscriptionProf=inscription_prof.id AND isRempliViaProf=1) AS nbHeures
+        FROM inscription INNER JOIN inscription_prof ON inscription_prof.idInscription= inscription.id  INNER JOIN niveau ON niveau.id = inscription.niveau  INNER JOIN matiere ON inscription_prof.matiere = matiere.id LEFT OUTER JOIN bon_prof ON inscription_prof.id = bon_prof.idinscription_prof
+        WHERE inscription.idEleve=? AND inscription_prof.idProf=?;");
         $stmt->bind_param('ss',$idEleve, $idProf);
 
         if($stmt->execute()){

@@ -5,19 +5,20 @@ $db = new DB_Functions();
 $response = array("error" => FALSE);
 
 $idProf = $_GET["idProf"];
-//$idProf="4186";
-$liste=$db->getListeEleveProf($idProf);
+$idEleve = $_GET["idEleve"];
+$liste=$db->getListeCours($idEleve, $idProf);
 if($liste->num_rows !=0){
-	$response["eleve"] = array();
-	$compteur=0;
+	$response["Cours"] = array();
 	foreach ($liste as $l) {
-		array_push($response["eleve"], $l);
-		
+		array_push($response["Cours"], $l);
 	}
+		
+	
 	echo json_encode($response);
+	var_dump($response);
 }
 else{
 	$response["error"] = TRUE;
-    $response["error_msg"] = "Le professeur n'as aucun eleve";
+    $response["error_msg"] = "L'eleve n'as aucun cours";
     echo json_encode($response);
 }
