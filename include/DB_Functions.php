@@ -79,5 +79,31 @@ class DB_Functions {
         }
     }
 
+
+    public function getInformationTicket($codeBarre){
+        $stmt=$this->conn->prepare("SELECT * from inscription_tickets where codeBarre = ?");
+        $stmt->bind_param('s',$codeBarre);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+
+    public function saisirTicket($idInscription, $numTicket){
+        $stmt=$this->conn->prepare("INSERT into bon_prof (idinscription,numTicket) values (?,?);");
+        $stmt->bind_param('ss',$idInscription, $numTicket);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
 }
 ?>
