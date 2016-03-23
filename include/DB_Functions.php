@@ -105,5 +105,31 @@ class DB_Functions {
             return NULL;
         }
     }
+    public function insererBilan($idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance,$endSeance,$themesAbordes,$commentaires,$idRDV,$dateEnregistrement){
+        $stmt=$this->conn->prepare("INSERT INTO inscription_bilan (idInscriptionProf,idProf,idInscription,idEleve,suppr,isRempliViaProf,dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires,idRDV,dateEnregistrement) VALUES (?,?,?,?,0,1,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param('ssssssssssss',$idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance,$endSeance,$themesAbordes,$commentaires,$idRDV,$dateEnregistrement);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+
+    }
+    public function ListeHoraires($idinscription_prof,$idProf){
+          $stmt=$this->conn->prepare("SELECT * FROM agenda WHERE idInscriptionProf=? AND (supp IS NULL OR supp=0) AND idProf=? AND is_horaire IS NULL AND idBilan IS NULL ORDER BY date_deb");
+        $stmt->bind_param('ss',$idinscription_prof, $idProf);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+
+    }
 }
 ?>

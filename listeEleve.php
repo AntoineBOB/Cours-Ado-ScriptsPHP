@@ -4,7 +4,7 @@ $db = new DB_Functions();
 $response = array("error" => FALSE);
 
 $idProf = $_GET["idProf"];
-$//idProf="4186";
+//idProf="4186";
 $liste=$db->getListeEleveProf($idProf);
 if($liste->num_rows !=0){
 	$response["eleve"] = array();
