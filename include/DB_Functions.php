@@ -131,5 +131,18 @@ class DB_Functions {
         }
 
     }
+
+    public function codeBarreExists($codeBarre){
+        $stmt=$this->conn->prepare("SELECT idInscription from inscription_tickets where codeBarre= ?");
+        $stmt->bind_param('s',$codeBarre);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
 }
 ?>

@@ -10,13 +10,19 @@ $codeBarre = $_GET["codeBarre"];
 $ticket = $db->getTicket($codeBarre);
 
 if ($ticket == null) {
-    $response["error"] = FALSE;
-    $response["message"]= "Le ticket est valide";
-    echo json_encode($response);
+	$codeBarreExist = $db->codeBarreExists($codeBarre);
+	if($codeBarreExist->num_rows>0){
+	    $response["error"] = FALSE;
+	    $response["message"]= "Le ticket est valide";
+	}
+	else{
+		$response["error"]=TRUE;
+    	$response["error_msg"] = "Le ticket n'existe pas";
+	}
 }
 else{
     $response["error"]=TRUE;
     $response["error_msg"] = "Le ticket a déjà été validé";
-    echo json_encode($response);
 }
+echo json_encode($response);
 ?>
