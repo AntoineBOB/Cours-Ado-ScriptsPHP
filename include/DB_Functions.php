@@ -119,7 +119,7 @@ class DB_Functions {
 
     }
     public function ListeHoraires($idinscription_prof,$idProf){
-          $stmt=$this->conn->prepare("SELECT * FROM agenda WHERE idInscriptionProf=? AND (supp IS NULL OR supp=0) AND idProf=? AND is_horaire IS NULL AND idBilan IS NULL ORDER BY date_deb");
+        $stmt=$this->conn->prepare("SELECT date_deb FROM agenda WHERE idInscriptionProf=? AND (supp IS NULL OR supp=0) AND idProf=? AND is_horaire IS NULL AND idBilan IS NULL ORDER BY date_deb");
         $stmt->bind_param('ss',$idinscription_prof, $idProf);
 
         if($stmt->execute()){
