@@ -158,5 +158,17 @@ class DB_Functions {
         }
 
     }
+    public function getListeBilan($idInscriptionProf, $idProf,$idEleve,$idInscription){
+         $stmt=$this->conn->prepare("SELECT id, dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires FROM inscription_bilan WHERE idInscriptionProf=? AND idProf=? AND idEleve=? AND idInscription=?");
+        $stmt->bind_param('ssss',$idInscriptionProf,$idProf,$idEleve,$idInscription);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
 }
 ?>
