@@ -65,7 +65,7 @@ class DB_Functions {
     }
     public function getListeCours($idEleve, $idProf){
 
-        $stmt=$this->conn->prepare("SELECT inscription.id AS idInscription, inscription_prof.id,inscription_prof.heure_cadence, niveau.niveau, inscription.ville_cours AS ville, inscription.num_inscription,(select IFNULL(SUM(compteur),0) from bon_prof WHERE idinscription_prof=inscription_prof.id) as nbTickets, (SELECT SUM(dureeSeance) AS nbHeures FROM inscription_bilan WHERE idInscriptionProf=inscription_prof.id AND isRempliViaProf=1) AS nbHeures
+        $stmt=$this->conn->prepare("SELECT inscription.id AS idInscription, inscription_prof.id,matiere.matiere, inscription_prof.heure_cadence, niveau.niveau, inscription.ville_cours AS ville, inscription.num_inscription,(select IFNULL(SUM(compteur),0) from bon_prof WHERE idinscription_prof=inscription_prof.id) as nbTickets, (SELECT SUM(dureeSeance) AS nbHeures FROM inscription_bilan WHERE idInscriptionProf=inscription_prof.id AND isRempliViaProf=1) AS nbHeures
         FROM inscription INNER JOIN inscription_prof ON inscription_prof.idInscription= inscription.id  INNER JOIN niveau ON niveau.id = inscription.niveau  INNER JOIN matiere ON inscription_prof.matiere = matiere.id LEFT OUTER JOIN bon_prof ON inscription_prof.id = bon_prof.idinscription_prof
         WHERE inscription.idEleve=? AND inscription_prof.idProf=?;");
         $stmt->bind_param('ss',$idEleve, $idProf);
@@ -143,6 +143,20 @@ class DB_Functions {
         } else {
             return NULL;
         }
+    }
+
+    public function updateBilan($themes,$commentaire,$id){
+        $stmt=$this->conn->prepare("UPDATE inscription_bilan SET themesAbordes=? AND commentaires=? WHERE id=?");
+        $stmt->bind_param('sss',$themes,$commentaire,$id);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+
     }
 }
 ?>

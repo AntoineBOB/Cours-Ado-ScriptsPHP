@@ -1,6 +1,28 @@
 <?php
 require_once 'include/DB_Functions.php';
 $db = new DB_Functions();
+
+function utf8_encode_recursive($array)
+    {
+        $result = array();
+        foreach ($array as $key => $value)
+        {
+            if (is_array($value))
+            {
+                $result[$key] = utf8_encode_recursive($value);
+            }
+            else if (is_string($value))
+            {
+                $result[$key] = utf8_encode($value);
+            }
+            else
+            {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
+    }
+
 // json response array
 $response = array("error" => FALSE);
 
@@ -13,9 +35,8 @@ if($liste->num_rows !=0){
 		array_push($response["Cours"], $l);
 	}
 		
-	
-	echo json_encode($response);
-	var_dump($response);
+	$li=utf8_encode_recursive($response);
+	echo json_encode($li);
 }
 else{
 	$response["error"] = TRUE;
