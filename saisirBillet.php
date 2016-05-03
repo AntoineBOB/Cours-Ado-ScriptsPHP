@@ -14,7 +14,7 @@ if ($ticket == null ){
 			$billet = $db->getInformationTicket($codeBarre);
 			$idInscription = $billet["idInscription"];
 			$numeroBon = $billet["numeroBon"];
-			//$db->saisirTicket($idInscription,$numeroBon);
+			$db->saisirTicket($idInscription,$numeroBon);
 			$response["message"]="Le ticket a bien été saisi";
 		}
 		else{

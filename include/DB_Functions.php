@@ -105,9 +105,9 @@ class DB_Functions {
             return NULL;
         }
     }
-    public function insererBilan($idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance,$endSeance,$themesAbordes,$commentaires,$idRDV,$dateEnregistrement){
-        $stmt=$this->conn->prepare("INSERT INTO inscription_bilan (idInscriptionProf,idProf,idInscription,idEleve,suppr,isRempliViaProf,dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires,idRDV,dateEnregistrement) VALUES (?,?,?,?,0,1,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param('ssssssssssss',$idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance,$endSeance,$themesAbordes,$commentaires,$idRDV,$dateEnregistrement);
+    public function insererBilan($idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance/*,$endSeance*/,$themesAbordes,$commentaires,$dateEnregistrement){
+        $stmt=$this->conn->prepare("INSERT INTO inscription_bilan (idInscriptionProf,idProf,idInscription,idEleve,suppr,isRempliViaProf,dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires,dateEnregistrement) VALUES (?,?,?,?,0,1,?,?,?,?,?,?,?)");
+        $stmt->bind_param('sssssssssss',$idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance,$endSeance,$themesAbordes,$commentaires,$dateEnregistrement);
 
         if($stmt->execute()){
             $result=$stmt->get_result();
@@ -118,6 +118,7 @@ class DB_Functions {
         }
 
     }
+
     public function ListeHoraires($idinscription_prof,$idProf){
         $stmt=$this->conn->prepare("SELECT date_deb FROM agenda WHERE idInscriptionProf=? AND (supp IS NULL OR supp=0) AND idProf=? AND is_horaire IS NULL AND idBilan IS NULL ORDER BY date_deb");
         $stmt->bind_param('ss',$idinscription_prof, $idProf);
