@@ -171,5 +171,18 @@ class DB_Functions {
             return NULL;
         }
     }
+
+    public function UpdateDateBilan (){
+         $stmt=$this->conn->prepare("UPDATE agenda SET idInscription=?, idInscriptionProf=? WHERE id=?");
+        $stmt->bind_param('ssss',$idInscriptionProf,$idProf,$idEleve,$idInscription);
+
+        if($stmt->execute()){
+            $result=$stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
 }
 ?>
