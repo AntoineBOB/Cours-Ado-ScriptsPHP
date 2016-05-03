@@ -34,9 +34,9 @@ if(date_format($duree,"i")=="45"){
 
 
 
-//$ajout = $db->insererBilan($idInscriptionProf,$idProf,$idInscription,$idEleve,$dateSeance,
-//	$realDuree,$startSeance,/*$endSeance,*/$themes,$commentaires,$dateEnregistrement);
+$ajout = $db->insererBilan($idInscriptionProf,$idProf,$idInscription,$idEleve,$dateSeance,
+$realDuree,$startSeance,/*$endSeance,*/$themes,$commentaires,$dateEnregistrement);
 
-/*$response["message"] = "L'ajout n'a pas fonctionné";
+$response["message"] = "L'ajout à fonctionné";
 
-echo json_encode($response);*/
+echo json_encode($response);

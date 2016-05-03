@@ -106,8 +106,8 @@ class DB_Functions {
         }
     }
     public function insererBilan($idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance/*,$endSeance*/,$themesAbordes,$commentaires,$dateEnregistrement){
-        $stmt=$this->conn->prepare("INSERT INTO inscription_bilan (idInscriptionProf,idProf,idInscription,idEleve,suppr,isRempliViaProf,dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires,dateEnregistrement) VALUES (?,?,?,?,0,1,?,?,?,?,?,?,?)");
-        $stmt->bind_param('sssssssssss',$idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance,$endSeance,$themesAbordes,$commentaires,$dateEnregistrement);
+        $stmt=$this->conn->prepare("INSERT INTO inscription_bilan (idInscriptionProf,idProf,idInscription,idEleve,suppr,isRempliViaProf,dateSeance,dureeSeance,startSeance,themesAbordes,commentaires,dateEnregistrement) VALUES (?,?,?,?,0,1,?,?,?,?,?,?)");
+        $stmt->bind_param('ssssssssss',$idinscription_prof, $idProf,$idInscription,$idEleve,$dateSeance,$dureeSeance,$startSeance,$themesAbordes,$commentaires,$dateEnregistrement);
 
         if($stmt->execute()){
             $result=$stmt->get_result();
@@ -161,19 +161,6 @@ class DB_Functions {
     }
     public function getListeBilan($idInscriptionProf, $idProf,$idEleve,$idInscription){
          $stmt=$this->conn->prepare("SELECT id, dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires FROM inscription_bilan WHERE idInscriptionProf=? AND idProf=? AND idEleve=? AND idInscription=? AND idEnvoi IS NULL AND dateValidation IS NULL");
-        $stmt->bind_param('ssss',$idInscriptionProf,$idProf,$idEleve,$idInscription);
-
-        if($stmt->execute()){
-            $result=$stmt->get_result();
-            $stmt->close();
-            return $result;
-        } else {
-            return NULL;
-        }
-    }
-
-    public function UpdateDateBilan (){
-         $stmt=$this->conn->prepare("UPDATE agenda SET idInscription=?, idInscriptionProf=? WHERE id=?");
         $stmt->bind_param('ssss',$idInscriptionProf,$idProf,$idEleve,$idInscription);
 
         if($stmt->execute()){
