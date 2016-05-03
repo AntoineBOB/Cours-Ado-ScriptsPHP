@@ -146,7 +146,7 @@ class DB_Functions {
     }
 
     public function updateBilan($themes,$commentaire,$id){
-        $stmt=$this->conn->prepare("UPDATE inscription_bilan SET themesAbordes=? AND commentaires=? WHERE id=?");
+        $stmt=$this->conn->prepare("UPDATE inscription_bilan SET themesAbordes=?, commentaires=? WHERE id=?");
         $stmt->bind_param('sss',$themes,$commentaire,$id);
 
         if($stmt->execute()){
@@ -159,7 +159,7 @@ class DB_Functions {
 
     }
     public function getListeBilan($idInscriptionProf, $idProf,$idEleve,$idInscription){
-         $stmt=$this->conn->prepare("SELECT id, dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires FROM inscription_bilan WHERE idInscriptionProf=? AND idProf=? AND idEleve=? AND idInscription=?");
+         $stmt=$this->conn->prepare("SELECT id, dateSeance,dureeSeance,startSeance,endSeance,themesAbordes,commentaires FROM inscription_bilan WHERE idInscriptionProf=? AND idProf=? AND idEleve=? AND idInscription=? AND idEnvoi IS NULL AND dateValidation IS NULL");
         $stmt->bind_param('ssss',$idInscriptionProf,$idProf,$idEleve,$idInscription);
 
         if($stmt->execute()){
